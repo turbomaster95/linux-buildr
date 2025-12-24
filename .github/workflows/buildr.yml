@@ -60,10 +60,19 @@ jobs:
         # CONFIG_STATIC=y: Compile as one static binary (no external libs)
         # CONFIG_INSTALL_NO_USR=y: Install directly into /bin, not /usr/bin
         # CONFIG_FEATURE_INSTALLER=y: Enable the "make install" feature to create symlinks
+        
+        # Networking configuration to ensure no external dependencies are used:
+        # CONFIG_FEATURE_PREFER_APPLETS=y: Use Busybox internal DNS/Net functions instead of system libs.
+        # CONFIG_FEATURE_IPV6=n: Disable IPv6 support.
+        # CONFIG_FEATURE_SUSv2=n: Disable legacy SUSv2 features (optional, often includes network bits).
+        
         cat >> .config << EOF
         CONFIG_STATIC=y
         CONFIG_INSTALL_NO_USR=y
         CONFIG_FEATURE_INSTALLER=y
+        CONFIG_FEATURE_PREFER_APPLETS=y
+        CONFIG_FEATURE_IPV6=n
+        CONFIG_FEATURE_SUSv2=n
         EOF
         
         make -j $(nproc)
